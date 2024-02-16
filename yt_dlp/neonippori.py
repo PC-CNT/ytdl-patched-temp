@@ -54,7 +54,7 @@ def process_mailstyle(mail: Optional[str], fontsize):
     pos, color, size = 0, 0xffffff, fontsize
     if not mail:
         return pos, color, size
-    for mailstyle in mail.split():
+    for mailstyle in mail:
         if mailstyle == 'ue':
             pos = 1
         elif mailstyle == 'shita':
@@ -90,7 +90,7 @@ def parse_comments_nnjson(f: str, fontsize: float, report_warning):
 
         if 'chat' in comment_dom:
             comment = comment_dom['chat']
-        elif 'content' in comment_dom:
+        elif 'body' in comment_dom:
             comment = comment_dom
         else:
             continue
@@ -99,12 +99,12 @@ def parse_comments_nnjson(f: str, fontsize: float, report_warning):
             if 'deleted' in comment:
                 continue
 
-            c = comment['content']
+            c = comment['body']
             if c.startswith('/'):
                 continue  # ignore advanced comments
 
-            pos, color, size = process_mailstyle(comment.get('mail'), fontsize)
-            yield Comment(max(comment['vpos'], 0) * 0.01, comment['date'], comment.get('no', 0), c, pos, color, size, (c.count('\n') + 1) * size, maximum_line_length(c) * size)
+            pos, color, size = process_mailstyle(comment.get('commands'), fontsize)
+            yield Comment(max(comment['vposMs'], 0) * 0.001, comment['postedAt'], comment.get('no', 0), c, pos, color, size, (c.count('\n') + 1) * size, maximum_line_length(c) * size)
         except (AssertionError, AttributeError, IndexError, TypeError, ValueError, KeyError) as e:
             report_warning('Invalid comment: %s %s' % (e, comment and json.dumps(comment)))
             continue

@@ -30,9 +30,9 @@ jobs:
       latest_version_normalized: ${{ steps.prepare.outputs.latest_version_normalized }}
       latest_version_numeric: ${{ steps.prepare.outputs.latest_version_numeric }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Set up Python ${{ env.python_version }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ env.python_version }}
       - name: Install deps
@@ -60,7 +60,7 @@ jobs:
       filehash_bin: ${{ steps.build.outputs.filehash_bin }}
       filehash_tar: ${{ steps.build.outputs.filehash_tar }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Download base
@@ -73,7 +73,7 @@ jobs:
       - name: Create buildconfig.py
         run: python ./devscripts/make_buildconfig.py
       - name: Set up Python ${{ env.python_version }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ env.python_version }}
       - name: Install deps
@@ -105,7 +105,7 @@ jobs:
       filehash_wheel: ${{ steps.hash.outputs.filehash_wheel }}
       filehash_wheel_tar: ${{ steps.hash.outputs.filehash_wheel_tar }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Download base
@@ -113,7 +113,7 @@ jobs:
         with:
           name: ytdl-artifacts
       - name: Set up Python ${{ env.python_version }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ env.python_version }}
       - name: Create buildconfig.py
@@ -151,7 +151,7 @@ jobs:
       matrix:
         icon: [red, white]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Download base
@@ -161,7 +161,7 @@ jobs:
       - name: Create buildconfig.py
         run: python ./devscripts/make_buildconfig.py variant=${{ matrix.icon }}
       - name: Set up Python ${{ env.python_version_pyinst }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ env.python_version_pyinst }}
       - name: Upgrade pip and enable wheel support
@@ -324,7 +324,7 @@ jobs:
       VERSION: ${{ needs.prepare.outputs.latest_version }}
       VERSION_NAME: ${{ needs.prepare.outputs.latest_version }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Upload to my homebrew repository
@@ -404,7 +404,7 @@ jobs:
         with:
           name: ytdl-artifacts
       - name: Set up Python ${{ matrix.python_version }}
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v5
         if: ${{ runner.os == 'Linux' || runner.os == 'macOS' }}
         with:
           python-version: ${{ matrix.python_version }}
@@ -431,7 +431,7 @@ jobs:
     continue-on-error: true
     if: ${{ 1 == 0 && github.event_name != 'pull_request' && github.ref == 'refs/heads/ytdlp' }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Download artifacts
         uses: actions/download-artifact@v2
         with:
@@ -484,7 +484,7 @@ jobs:
           {os: windows-2016, tag: ltsc2016},
         ]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Download artifacts
         uses: actions/download-artifact@v2
         with:
